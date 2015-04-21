@@ -30,12 +30,7 @@ def nodeGenerator() :
                     y = int(value)
                     #print("pair")
                     current_node = Node(x,y)
-                     #Add neightbours
-                    if bol_previous_node:
-                        previous_node.neighbours.append(current_node)
-                        bol_previous_node = False
-                    else:
-                        bol_previous_node = True
+
                     #Add new node to list
                     newNode = True
                     for node in nodes:
@@ -45,7 +40,14 @@ def nodeGenerator() :
                     if newNode:
                         nodes.append(current_node)
                     pair = False
+                     #Add neightbours
+                    if bol_previous_node:
+                        previous_node.neighbours.append(current_node)
+                        bol_previous_node = False
+                    else:
+                        bol_previous_node = True
                     previous_node = current_node
+
                 else:
                     x = int(value)
                     pair = True

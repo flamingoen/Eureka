@@ -15,7 +15,8 @@ class Node:
         return (self.x == other.x) and (self.y == other.y)
 
     def calc_estimated_dist(self, node):
-        return math.sqrt(self.x*node.x+self.y*node.y)
+        #return math.sqrt(self.x-*node.x+self.y*node.y)
+        return math.sqrt(((self.x-node.x)*(self.x-node.x))+((self.y-node.y)*(self.y-node.y)))
 
     def add_neighbour(self, node):
         self.neigbours.append(node)
