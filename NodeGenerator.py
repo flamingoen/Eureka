@@ -52,8 +52,8 @@ def nodeGenerator() :
 
     return nodes
 #"main"
-nodes = nodeGenerator()
-for node in nodes:
-    print("x= ",node.x," y= ",node.y, " Neighbours: ")
-    for n in node.neighbours:
-        print("          x= ",n.x," y= ",n.y)
+#nodes = nodeGenerator()
+#for node in nodes:
+#    print("x= ",node.x," y= ",node.y, " Neighbours: ")
+#    for n in node.neighbours:
+ #       print("          x= ",n.x," y= ",n.y)
