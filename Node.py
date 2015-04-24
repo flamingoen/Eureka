@@ -6,6 +6,7 @@ class Node:
     def __init__(self, x, y):
         self.x = x
         self.y = y
+        self.map =  {}
         #self.came_from
         self.neighbours = []
         self.dist_from_start = 0
@@ -20,3 +21,5 @@ class Node:
 
     def add_neighbour(self, node):
         self.neigbours.append(node)
+    def __hash__(self):
+        return hash((self.x, self.y))

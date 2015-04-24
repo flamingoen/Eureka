@@ -12,6 +12,7 @@ def is_number(s):
 def nodeGenerator() :
     temp = []
     nodes = []
+    road = "none"
     x = 0
     bol_previous_node = False
     #Load file
@@ -43,6 +44,7 @@ def nodeGenerator() :
                      #Add neightbours
                     if bol_previous_node:
                         previous_node.neighbours.append(current_node)
+                        previous_node.map[current_node] = road
                         bol_previous_node = False
                     else:
                         bol_previous_node = True
@@ -51,6 +53,9 @@ def nodeGenerator() :
                 else:
                     x = int(value)
                     pair = True
+            #saves current road
+            elif len(value) > 2:
+                road = value
 
     return nodes
 #"main"
