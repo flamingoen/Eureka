@@ -53,4 +53,4 @@ for node in nodes:
     for n in node.neighbours:
         print("          x= ",n.x," y= ",n.y)
     i=i+1
-print(eureka(nodes[0], nodes[5]))
+print(eureka(nodes[0], nodes[90]))

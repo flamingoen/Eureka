@@ -16,7 +16,7 @@ def nodeGenerator() :
     x = 0
     bol_previous_node = False
     #Load file
-    with open("copenhagen_streetmap.txt") as inputfile:
+    with open("manhattan.txt") as inputfile:
         for line in inputfile:
             temp.append(line.strip().split())
     #Creates pair nodes
