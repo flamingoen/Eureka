@@ -6,6 +6,7 @@ class Node:
     def __init__(self, x, y):
         self.x = x
         self.y = y
+        self.parent = []
         self.map =  {}
         #self.came_from
         self.neighbours = []
@@ -13,7 +14,7 @@ class Node:
         self.dist_estimated_to_finish = 0
 
     def __eq__(self, other):
-        return (self.x == other.x) and (self.y == other.y)
+        return (self.x == other.x) and (self.y == other.y) and (self.map == other.map)
 
     def calc_estimated_dist(self, node):
         #return math.sqrt(self.x-*node.x+self.y*node.y)

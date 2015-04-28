@@ -12,6 +12,7 @@ def eureka(start, goal):
     nodes = nodeGenerator()
     closed_list = []
     open_list = [start]
+    start.parent.append(Node(0,0))
 
    # open_list.append(start)
 
@@ -20,6 +21,13 @@ def eureka(start, goal):
         current = open_list.pop()  # this should be done in a heap, but python wont let me do it!!
 
         if current == goal:
+            print "GOAL!"
+            s = current.parent[0].map[current]
+            current = current.parent[0]
+            while(current.parent[0].x != 0 and current.parent[0].y != 0):
+                s = current.parent[0].map[current]+" "+ s
+                current = current.parent[0]
+            print s
             return goal.dist_from_start
 
         closed_list.append(current)
@@ -34,6 +42,8 @@ def eureka(start, goal):
             if neighbour not in open_list or new_dist < neighbour.dist_from_start:
                 neighbour.came_from = current
                 neighbour.dist_from_start = new_dist
+                #adds path?
+                neighbour.parent.append(current)
                 neighbour.dist_estimated_to_finish = neighbour.dist_from_start + neighbour.calc_estimated_dist(goal)
                 if neighbour not in open_list:
                     open_list.append(neighbour)
