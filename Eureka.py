@@ -12,7 +12,7 @@ def eureka(start, goal):
     nodes = nodeGenerator()
     closed_list = []
     open_list = [start]
-    start.parent.append(Node(0,0))
+    start.parent.append(Node(-1,-1))
 
    # open_list.append(start)
 
@@ -24,7 +24,7 @@ def eureka(start, goal):
             print "GOAL!"
             s = current.parent[0].map[current]
             current = current.parent[0]
-            while(current.parent[0].x != 0 and current.parent[0].y != 0):
+            while(current.parent[-1].x != -1 and current.parent[-1].y != -1):
                 s = current.parent[0].map[current]+" "+ s
                 current = current.parent[0]
             print s
@@ -53,4 +53,5 @@ for node in nodes:
     for n in node.neighbours:
         print("          x= ",n.x," y= ",n.y)
     i=i+1
-print(eureka(nodes[0], nodes[90]))
+
+print(eureka(nodes[0], nodes[99]))
