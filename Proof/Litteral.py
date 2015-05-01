@@ -1,6 +1,6 @@
 class Litteral:
 
-    def __init__(self, bol=True, char=None):
+    def __init__(self, char=None, bol=True):
         self.char = char
         self.bol = bol
 
@@ -13,4 +13,4 @@ class Litteral:
     def __str__(self):
         if self.bol:
             return self.char
-        return "¬"+self.char
+        return "NOT "+self.char

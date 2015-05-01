@@ -1,27 +1,70 @@
 from Litteral import Litteral
-KB = [[]]
-contradiction = Litteral(False,"a")
+from Clause import Clause
+
+KB = []
+contradiction = Litteral("a",False)
 #Knowledgebase
 def CreateKB(contradiction):
 
-    KB[0].append(contradiction)
+    KB.append(Clause([contradiction]))
 
-    KB[1].append(Litteral("a"))
-    KB[1].append(Litteral(False,"b"))
+    KB.append(Clause([Litteral("a"),Litteral("b",False)]))
 
-    KB[2].append(Litteral("a"))
-    KB[2].append(Litteral(False,"c"))
+    KB.append(Clause([Litteral("a"),Litteral("c",False)]))
 
-    KB[3].append(Litteral("b"))
-    KB[3].append(Litteral(False,"c"))
+    KB.append(Clause([Litteral("b"),Litteral("b",False)]))
 
-    KB[4].append(Litteral("b"))
-    KB[4].append(Litteral(False,"d"))
+    KB.append(Clause([Litteral("b"),Litteral("c",False)]))
 
-    KB[5].append(Litteral("c"))
+    KB.append(Clause([Litteral("b"),Litteral("c",False)]))
 
-    KB[6].append(Litteral("d"))
+    KB.append(Clause([Litteral("c")]))
+
+    KB.append(Clause([Litteral("d")]))
+
 CreateKB(contradiction)
+
+for clause in KB:
+    for neighbour in KB:
+        nbool = False
+        if neighbour == clause:
+            continue
+        for lit in clause.litterals:
+            if nbool:
+                break
+
+            for l in neighbour.litterals:
+                if(l.char == lit.char):
+                    clause.neighbours.append(neighbour)
+                    nbool = True
+                    break
+
+KB[0].KB.append([contradiction])
+for neighbour in KB[0].neighbours:
+    KB[0].KB.append(neighbour.litterals)
+
+clause = KB[0]
+for kb1 in clause.KB:
+    for l1 in kb1:
+        kb1remove = False
+        for kb2 in clause.KB:
+            if kb1 == kb2:
+                continue
+            for l2 in kb2:
+                if l2 == l1:
+                    kb1remove=True
+                elif l2.char == l1.char:
+                    kb1remove=True
+                    kb2.remove(l2)
+                    clause.KB = filter(None, clause.KB)
+
+
+        if kb1remove:
+            kb1.remove(l1)
+            clause.KB = filter(None, clause.KB)
+
+print "hello world!"
+
 
 
 
