@@ -1,4 +1,4 @@
-from Node import Node
+from streets import Node
 
 #function to check if it is a number
 
