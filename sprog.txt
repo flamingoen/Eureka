@@ -1,0 +1,16 @@
+a if b and c
+b if b
+b if c and d
+c
+d
+------------
+not a
+
+
+a or not b or not c
+not b or b
+b or not c or not d
+c
+d
+-----
+not a
