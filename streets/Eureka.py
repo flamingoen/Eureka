@@ -1,4 +1,4 @@
-from streets.NodeGenerator import *
+from NodeGenerator import *
 
 nodes = nodeGenerator()
 def gen_wrapper(cmp):

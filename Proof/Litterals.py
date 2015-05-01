@@ -1,6 +1,6 @@
 class Litterals:
 
-    def __init__(self, bol=True, char):
+    def __init__(self, bol=True, char=None):
         self.char = char
         self.bol = bol
 
