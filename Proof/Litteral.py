@@ -9,3 +9,8 @@ class Litteral:
 
     def Not(self):
         self.bol = not self.bol
+
+    def __str__(self):
+        if self.bol:
+            return self.char
+        return "¬"+self.char
