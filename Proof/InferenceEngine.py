@@ -24,6 +24,30 @@ def CreateKB(contradiction):
 
 CreateKB(contradiction)
 
+
+def calcKB(clause):
+    for kb1 in clause.KB:
+        for l1 in kb1:
+            kb1remove = False
+            for kb2 in clause.KB:
+                if kb1 == kb2:
+                    continue
+                for l2 in kb2:
+                    if l2 == l1:
+                        kb1remove = True
+                    elif l2.char == l1.char:
+                        kb1remove = True
+                        kb2.remove(l2)
+                        clause.KB = filter(None, clause.KB)
+            if kb1remove:
+                kb1.remove(l1)
+                clause.KB = filter(None, clause.KB)
+    i = 0
+    for neighbour in clause.neighbours:
+        neighbour.KB.append(clause.KB[i])
+
+
+
 for clause in KB:
     for neighbour in KB:
         nbool = False
@@ -44,24 +68,8 @@ for neighbour in KB[0].neighbours:
     KB[0].KB.append(neighbour.litterals)
 
 clause = KB[0]
-for kb1 in clause.KB:
-    for l1 in kb1:
-        kb1remove = False
-        for kb2 in clause.KB:
-            if kb1 == kb2:
-                continue
-            for l2 in kb2:
-                if l2 == l1:
-                    kb1remove=True
-                elif l2.char == l1.char:
-                    kb1remove=True
-                    kb2.remove(l2)
-                    clause.KB = filter(None, clause.KB)
+calcKB(clause)
 
-
-        if kb1remove:
-            kb1.remove(l1)
-            clause.KB = filter(None, clause.KB)
 
 print "hello world!"
 
