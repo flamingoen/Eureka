@@ -51,3 +51,5 @@ start = Clause([contradiction])
 start.KB = KB
 
 print forwardChaining(start)
+
+#swag
