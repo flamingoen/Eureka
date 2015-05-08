@@ -19,8 +19,8 @@ class Clause:
         for internLitteral in self.litterals:
             for clauseLiteral in clause.litterals:
                 if not internLitteral.opposite(clauseLiteral):
-                    litterals.append(internLitteral)
-
+                    if  internLitteral not in litterals:
+                        litterals.append(internLitteral)
         filter(None, litterals)
         return Clause(litterals)
 

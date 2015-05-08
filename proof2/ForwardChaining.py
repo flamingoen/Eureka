@@ -15,7 +15,7 @@ def createKB():
 
     KB.append(Clause([Litteral("b"), Litteral("c", False)]))
 
-    KB.append(Clause([Litteral("b"), Litteral("c", False)]))
+    KB.append(Clause([Litteral("b"), Litteral("d", False)]))
 
     KB.append(Clause([Litteral("c")]))
 
@@ -24,7 +24,6 @@ def createKB():
 
 def forwardChaining(node):
     foundClauses = []
-
     # finding clause matching node
     for clause in node.KB:
         for litteral in node.litterals:
@@ -32,15 +31,33 @@ def forwardChaining(node):
                 foundClauses.append(clause)
 
     # make new node, check if branch is done or continue
+    tempKB=[]
+    for temp in foundClauses:
+        tempKB.append(temp.reduced(node))
+    counter = -1
     for clause in foundClauses:
-        new = clause.reduced(node)
-        new.KB = [clause for clause in node.KB if clause not in foundClauses] # laver en ny kb af start.KB hvor de fundet clauses i newClauses er fjernet - virker ikke da to clauses godt kan være ens med med forskellig id
-
+        counter = counter + 1
+        new = tempKB[counter]
+        if new == node:
+            continue
+        for i in range(len(tempKB)):
+            if i!=counter:
+                new.KB.append(tempKB[i])
+        #Adds the difference between the lists.
+        for clause1 in node.KB:
+            addClause=True
+            for clause2 in foundClauses:
+                if clause1 == clause2 or clause1 in new.KB:
+                    addClause = False
+            if addClause:
+                new.KB.append(clause1)
         print new
 
         if not new.KB:
+            print "true"
             return True
         if new.KB == node.KB:
+            print"false"
             return False
 
         forwardChaining(new)
