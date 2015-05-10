@@ -31,3 +31,14 @@
 60 150 Noerrevoldgade 35 120
 35 120 Noerrevoldgade 25 100
 25 100 Noerrevoldgade 10 70
+
+
+ #-----------------------------------------------------------------------------------
+        for clause in reducedFoundClauses:
+            isNewGoal = True
+            for goal in current_goals:
+                if clause == goal:
+                    isNewGoal = False
+            if isNewGoal:
+                current_goals.append(clause)
+#------------------------------------------------------------------------------------

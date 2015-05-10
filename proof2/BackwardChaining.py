@@ -26,16 +26,16 @@ def createKB():
 
 def createKB2():
     #Actural KB
-    KB.append(Clause([Litteral("water"), Litteral("ok-pump", False)]))
-    KB.append(Clause([Litteral("water"), Litteral("on-pump", False)]))
-    KB.append(Clause([Litteral("water"), Litteral("man-fill", False)]))
+    KB.append(Clause([Litteral("w"), Litteral("ok-pump", False)]))
+    KB.append(Clause([Litteral("w"), Litteral("on-pump", False)]))
+    KB.append(Clause([Litteral("w"), Litteral("man-fill", False)]))
     KB.append(Clause([Litteral("man-fill"), Litteral("on-pump")]))
     KB.append(Clause([Litteral("man-fill"), Litteral("on-pump")]))
-    KB.append(Clause([Litteral("water", False), Litteral("steam")]))
+    KB.append(Clause([Litteral("w", False), Litteral("steam")]))
     KB.append(Clause([Litteral("ok-boiler", False), Litteral("steam")]))
     KB.append(Clause([Litteral("on-boiler", False), Litteral("steam")]))
-    KB.append(Clause([Litteral("steam", False), Litteral("water", False)]))
-    KB.append(Clause([Litteral("water", False), Litteral("steam")]))
+    KB.append(Clause([Litteral("steam", False), Litteral("w", False)]))
+    KB.append(Clause([Litteral("w", False), Litteral("steam")]))
     KB.append(Clause([Litteral("on-boiler"), Litteral("steam", False)]))
     KB.append(Clause([Litteral("ok-boiler"), Litteral("steam", False)]))
     KB.append(Clause([Litteral("steam", False), Litteral("hot-drink")]))
@@ -48,7 +48,7 @@ def createKB2():
     KB.append(Clause([Litteral("ok-pump"), Litteral("hot-drink", False)]))
     KB.append(Clause([Litteral("on-pump"), Litteral("hot-drink", False)]))
 
-def forwardChaining(node):
+def backwardChaining(node,current_goals):
     foundClauses = []
     # finding clause matching node
     for clause in node.KB:
@@ -62,6 +62,15 @@ def forwardChaining(node):
         reducedNode = temp.reduced(node)
         if  reducedNode != node and reducedNode != "":
             reducedFoundClauses.append(reducedNode)
+     #-----------------------------------------------------------------------------------
+    for clause in reducedFoundClauses:
+        isNewGoal = True
+        for goal in current_goals:
+            if clause == goal:
+                isNewGoal = False
+        if isNewGoal:
+            current_goals.append(clause)
+#------------------------------------------------------------------------------------
 
     counter = -1
     for clause in reducedFoundClauses:
@@ -112,7 +121,7 @@ def forwardChaining(node):
        #     print"false"
        #     return False
 
-        if forwardChaining(new):
+        if backwardChaining(new,current_goals):
             return True
 
     if len(reducedFoundClauses) == 0:
@@ -136,7 +145,7 @@ def forwardChaining(node):
                 if len(restLitterals) != 0:
                     clause.KB.append(Clause(restLitterals))
 
-            if forwardChaining(clause):
+            if backwardChaining(clause, current_goals):
                 return True
 
     return False
@@ -146,5 +155,6 @@ def forwardChaining(node):
 createKB()
 start = Clause([contradiction])
 start.KB = KB
-
-print forwardChaining(start)
+current_goals = []
+current_goals.append(start)
+print backwardChaining(start,current_goals)
