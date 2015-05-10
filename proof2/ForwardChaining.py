@@ -17,7 +17,7 @@ def createKB():
 
     KB.append(Clause([Litteral("b"), Litteral("d", False)]))
 
-    KB.append(Clause([Litteral("c")]))
+    KB.append(Clause([Litteral("d")]))
 
     KB.append(Clause([Litteral("d")]))
 
@@ -31,18 +31,31 @@ def forwardChaining(node):
                 foundClauses.append(clause)
 
     # make new node, check if branch is done or continue
-    tempKB=[]
+    reducedFoundClauses=[]
     for temp in foundClauses:
-        tempKB.append(temp.reduced(node))
+        reducedNode = temp.reduced(node)
+        if  reducedNode != node:
+            reducedFoundClauses.append(reducedNode)
     counter = -1
-    for clause in foundClauses:
+    for clause in reducedFoundClauses:
         counter = counter + 1
-        new = tempKB[counter]
+        new = reducedFoundClauses[counter]
         if new == node:
             continue
-        for i in range(len(tempKB)):
+        #removes any litterals that have been used for reduction---------------------------------------------------
+     #   unchanged = True
+        for litteral in node.litterals:
+            if litteral.reduced:
+                node.litterals.remove(litteral)
+     #           unchanged = False
+     #   if node!= "":
+     #       new.KB.append(node)
+     #   if unchanged:
+     #       continue
+        #----------------------------------------------------------------------------------------------------------
+        for i in range(len(reducedFoundClauses)):
             if i!=counter:
-                new.KB.append(tempKB[i])
+                new.KB.append(reducedFoundClauses[i])
         #Adds the difference between the lists.
         for clause1 in node.KB:
             addClause=True
@@ -51,22 +64,26 @@ def forwardChaining(node):
                     addClause = False
             if addClause:
                 new.KB.append(clause1)
+        if new == "":
+            if len(new.KB) == 0:
+                return True
+            new.litterals = new.KB.pop(0).litterals
+
         print new
 
-        if not new.KB:
-            print "true"
+        #if not new.KB:
+        #    print "true"
+        #    return True
+       # if new.KB == node.KB:
+       #     print"false"
+       #     return False
+
+        if forwardChaining(new):
             return True
-        if new.KB == node.KB:
-            print"false"
-            return False
-
-        forwardChaining(new)
-
+    return False
 # sets up base case
 createKB()
 start = Clause([contradiction])
 start.KB = KB
 
 print forwardChaining(start)
-
-#swag

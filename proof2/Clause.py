@@ -6,7 +6,14 @@ class Clause:
         self.neighbours = []
 
     def __eq__(self, other):
+        if other == "":
+            return len(self.litterals) == 0
         return (self.litterals == other.litterals)
+
+    def __ne__(self, other):
+        if other == "":
+            return len(self.litterals) != 0
+        return (self.litterals != other.litterals)
 
     def contains(self, litteral):
         for internLitteral in self.litterals:
@@ -17,9 +24,10 @@ class Clause:
     def reduced(self, clause):
         litterals = []
         for internLitteral in self.litterals:
-            for clauseLiteral in clause.litterals:
-                if not internLitteral.opposite(clauseLiteral):
+            for clauseLitteral in clause.litterals:
+                if not internLitteral.opposite(clauseLitteral):
                     if  internLitteral not in litterals:
+                        clauseLitteral.reduced = True
                         litterals.append(internLitteral)
         filter(None, litterals)
         return Clause(litterals)
