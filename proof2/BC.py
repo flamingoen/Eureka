@@ -57,8 +57,9 @@ def createKB2():
     KB.append(Clause([Litteral("k"), Litteral("h", False)]))
    # KB.append(Clause([Litteral("n"), Litteral("h", False)]))
 
-def backwardChaining(node,current_goals):
+def backwardChaining(node,cg):
     print(node)
+    current_goals = list(cg)
     foundClauses = []
     # finding clause matching node
     i = 0
@@ -112,6 +113,6 @@ createKB1()
 start = Clause([contradiction])
 #start=contradiction
 start.KB = KB
-current_goals = []
-current_goals.append(start)
-print backwardChaining(start,current_goals)
+cg = []
+cg.append(start)
+print backwardChaining(start,cg)
