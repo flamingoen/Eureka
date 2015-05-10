@@ -27,8 +27,10 @@ class Clause:
             for clauseLitteral in clause.litterals:
                 if not internLitteral.opposite(clauseLitteral):
                     if  internLitteral not in litterals:
-                        clauseLitteral.reduced = True
+#                        clauseLitteral.reduced = True
                         litterals.append(internLitteral)
+                else:
+                    clauseLitteral.reduced = True
         filter(None, litterals)
         return Clause(litterals)
 

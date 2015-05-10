@@ -17,7 +17,7 @@ def createKB():
 
     KB.append(Clause([Litteral("b"), Litteral("d", False)]))
 
-    KB.append(Clause([Litteral("c")]))
+    KB.append(Clause([Litteral("d")]))
 
     KB.append(Clause([Litteral("d")]))
 
@@ -62,6 +62,7 @@ def forwardChaining(node):
         reducedNode = temp.reduced(node)
         if  reducedNode != node and reducedNode != "":
             reducedFoundClauses.append(reducedNode)
+
     counter = -1
     for clause in reducedFoundClauses:
         counter = counter + 1
@@ -70,14 +71,21 @@ def forwardChaining(node):
             continue
         #removes any litterals that have been used for reduction---------------------------------------------------
      #   unchanged = True
-        for litteral in node.litterals:
-            if litteral.reduced:
-                node.litterals.remove(litteral)
+     #   for litteral in node.litterals:
+     #       if litteral.reduced:
+     #           node.litterals.remove(litteral)
      #           unchanged = False
      #   if node!= "":
      #       new.KB.append(node)
      #   if unchanged:
      #       continue
+        # adds non reduced literals to KB of new
+        restLitterals = []
+        for litteral in node.litterals:
+            if not litteral.reduced:
+                restLitterals.append(litteral)
+        if len(restLitterals) != 0:
+            new.KB.append(Clause(restLitterals))
         #----------------------------------------------------------------------------------------------------------
         for i in range(len(reducedFoundClauses)):
             if i!=counter:
@@ -107,7 +115,33 @@ def forwardChaining(node):
         if forwardChaining(new):
             return True
 
+    if len(reducedFoundClauses) == 0:
+        reducedFoundClauses = []
+        for temp in node.KB:
+            reducedNode = temp.reduced(node)
+            if reducedNode != node and reducedNode != "":
+                reducedFoundClauses.append(reducedNode)
+
+        if len(reducedFoundClauses) == 0:
+            return True
+
+        for clause in reducedFoundClauses:
+
+            clause.KB = reducedFoundClauses
+
+            restLitterals = []
+            for litteral in node.litterals:
+                if not litteral.reduced:
+                    restLitterals.append(litteral)
+                if len(restLitterals) != 0:
+                    clause.KB.append(Clause(restLitterals))
+
+            if forwardChaining(clause):
+                return True
+
     return False
+
+
 # sets up base case
 createKB()
 start = Clause([contradiction])
