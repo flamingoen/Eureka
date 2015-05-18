@@ -6,7 +6,7 @@ contradiction = Litteral("a", False)
 #contradiction = Clause([Litteral("n"), Litteral("h", False)])
 
 # Knowledgebase
-def createKB1():
+def createKB():
 
     KB.append(Clause([Litteral("a"), Litteral("b", False)]))
 
@@ -18,44 +18,10 @@ def createKB1():
 
     KB.append(Clause([Litteral("b"), Litteral("d", False)]))
 
-    KB.append(Clause([Litteral("c")]))
+    KB.append(Clause([Litteral("d")]))
 
     KB.append(Clause([Litteral("d")]))
 
-    #KB.append(Clause([Litteral("a")]))
-def createKB2():
-    #Actural KB
-    #water=w
-    #OK-pump=k
-    #On-pump = p
-    #Man-fill = m
-    #s = s
-    #On-boiler = n
-    #Ok-boiler = b
-    #coffe = c
-    #hot drink = h
-    #Tea = t
-    KB.append(Clause([Litteral("w"), Litteral("k", False)]))
-    KB.append(Clause([Litteral("w"), Litteral("n", False)]))
-    KB.append(Clause([Litteral("w"), Litteral("m", False)]))
-    KB.append(Clause([Litteral("m"), Litteral("n")]))
-    KB.append(Clause([Litteral("m"), Litteral("n")]))
-    KB.append(Clause([Litteral("w", False), Litteral("s")]))
-    KB.append(Clause([Litteral("b", False), Litteral("s")]))
-    KB.append(Clause([Litteral("n", False), Litteral("s")]))
-    KB.append(Clause([Litteral("s", False), Litteral("w", False)]))
-    KB.append(Clause([Litteral("w", False), Litteral("s")]))
-    KB.append(Clause([Litteral("n"), Litteral("s", False)]))
-    KB.append(Clause([Litteral("b"), Litteral("s", False)]))
-    KB.append(Clause([Litteral("s", False), Litteral("h")]))
-    KB.append(Clause([Litteral("c", False), Litteral("h")]))
-    KB.append(Clause([Litteral("s", False), Litteral("h")]))
-    KB.append(Clause([Litteral("t", False), Litteral("h")]))
-    KB.append(Clause([Litteral("c"), Litteral("t")]))
-
-    #contradiction
-    KB.append(Clause([Litteral("k"), Litteral("h", False)]))
-   # KB.append(Clause([Litteral("n"), Litteral("h", False)]))
 
 def backwardChaining(node,cg):
     print(node)
@@ -70,7 +36,7 @@ def backwardChaining(node,cg):
                 clause = cl.reduced(node)
                 if clause != node and clause != "":
                     foundClauses.append(clause)
-                KB.remove(cl)
+                node.KB.pop(i)
                 i=i-1
         i = i+1
     #remove reduced litterals from node
@@ -79,6 +45,8 @@ def backwardChaining(node,cg):
         if node.litterals[i].reduced:
             node.litterals.pop(i)
             i=i-1
+        else:
+            return False
         i+=1
     if len(node.litterals)==0:
         current_goals.remove(node)
@@ -99,19 +67,18 @@ def backwardChaining(node,cg):
     #run the recursion
     for clause in current_goals:
         new = clause
-        if new == node:
+        if new == node or len(new.litterals)==0:
             current_goals.remove(new)
             continue
-        new.KB = node.KB
+        new.KB = list(node.KB)
         if(backwardChaining(new,current_goals)):
             return True
+        print("new branch")
     return False
 
 # sets up base case
-createKB1()
-#createKB2()
+createKB()
 start = Clause([contradiction])
-#start=contradiction
 start.KB = KB
 cg = []
 cg.append(start)
