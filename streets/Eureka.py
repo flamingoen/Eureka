@@ -17,7 +17,7 @@ def eureka(start, goal):
    # open_list.append(start)
 
     while len(open_list)>0:
-        open_list.sort(key=lambda node: node.calc_estimated_dist(goal), reverse=True)
+        open_list.sort(key=lambda node: node.dist_from_start + node.calc_estimated_dist(goal), reverse=True)#f(n)=g(n)+h(n)
         current = open_list.pop()  # this should be done in a heap, but python wont let me do it!!
 
         if current == goal:
@@ -28,7 +28,7 @@ def eureka(start, goal):
                 s = current.parent[0].map[current]+" "+ s
                 current = current.parent[0]
             print s
-            return goal.dist_from_start
+            return
 
         closed_list.append(current)
         #open_list.remove(current)
@@ -42,7 +42,6 @@ def eureka(start, goal):
             if neighbour not in open_list or new_dist < neighbour.dist_from_start:
                 neighbour.came_from = current
                 neighbour.dist_from_start = new_dist
-                #adds path?
                 neighbour.parent.append(current)
                 neighbour.dist_estimated_to_finish = neighbour.dist_from_start + neighbour.calc_estimated_dist(goal)
                 if neighbour not in open_list:
@@ -54,4 +53,5 @@ for node in nodes:
         print("          x= ",n.x," y= ",n.y)
     i=i+1
 
-print(eureka(nodes[0], nodes[99]))
+eureka(nodes[0], nodes[11])
+print("done")

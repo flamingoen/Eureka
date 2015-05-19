@@ -16,7 +16,7 @@ def nodeGenerator() :
     x = 0
     bol_previous_node = False
     #Load file
-    with open("manhattan.txt") as inputfile:
+    with open("copenhagen_streetmap.txt") as inputfile:
         for line in inputfile:
             temp.append(line.strip().split())
     #Creates pair nodes
@@ -54,13 +54,7 @@ def nodeGenerator() :
                     x = int(value)
                     pair = True
             #saves current road
-            elif len(value) > 2:
+            elif len(value) > 2:# 2 is just to remove roads read as white space
                 road = value
 
     return nodes
-#"main"
-#nodes = nodeGenerator()
-#for node in nodes:
-#    print("x= ",node.x," y= ",node.y, " Neighbours: ")
-#    for n in node.neighbours:
- #       print("          x= ",n.x," y= ",n.y)

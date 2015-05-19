@@ -7,11 +7,10 @@ class Node:
         self.x = x
         self.y = y
         self.parent = []
-        self.map =  {}
-        #self.came_from
+        self.map =  {} #Key = other node, value = road between nodes
         self.neighbours = []
-        self.dist_from_start = 0
-        self.dist_estimated_to_finish = 0
+        self.dist_from_start = 0 #g(n)
+        self.dist_estimated_to_finish = 0 #h(n)
 
     def __eq__(self, other):
         return (self.x == other.x) and (self.y == other.y) and (self.map == other.map)
